@@ -33,7 +33,7 @@ You can also test with different permission levels with the following credential
 - Triage: triage.test/triage-pass
 - Triage: admin-mod.test/admin-mod-pass
 
-### Working with unpublished changes to the `@atproto/api` package
+### Working with unpublished changes to `atproto`
 
 In the course of development there may be updates to the atproto client that are not yet published to npm, but you would like to use with Ozone. Here's the workflow for using unpublished changes to the @atproto/api package:
 
@@ -62,23 +62,19 @@ In the course of development there may be updates to the atproto client that are
    ~/Documents/bluesky/atproto
    ❯ yarn
    ```
-
-4. Update the package.json file in ozone/ to reference the local build of @atproto/api.
-
-   ```diff
-      "dependencies": {
-   -    "@atproto/api": "^0.0.3",
-   +    "@atproto/api": "link:../atproto/packages/api/dist",
-        "@headlessui/react": "^1.7.7",
-   ```
-
-5. Ask yarn to reinstall, creating the link from ozone/ to the local build of @atproto/api.
+4. Link local atproto packages by running:
    ```
    ~/Documents/bluesky/ozone
-   ❯ yarn
+   ❯ yarn link-atproto
    ```
-6. Take care not to check-in the changes to package.json and yarn.lock that came from the temporary linking. When you're done, you can reset everything with:
+   This automatically patches `next.config.js`, `package.json`, clears the Next.js cache, and re-installs dependencies. If your atproto directory is not at `../atproto`, you can specify a custom path:
+   ```
+   ❯ ATPROTO_PATH=../path/to/atproto yarn link-atproto
+   ```
+
+5. When you're done, revert back to the published packages by running:
    ```
    ~/Documents/bluesky/ozone
-   ❯ git checkout package.json yarn.lock && yarn
+   ❯ yarn unlink-atproto
    ```
+   Take care not to check-in any changes to `next.config.js`, `package.json`, or `yarn.lock` that came from the temporary linking.

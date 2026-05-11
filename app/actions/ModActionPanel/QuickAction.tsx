@@ -280,7 +280,6 @@ function Form(
                   isAuthorTakendown={
                     !!record?.repo.moderation.subjectStatus?.takendown
                   }
-                  className="border-2 border-dashed border-gray-300"
                 >
                   {!isSubjectDid && record?.repo && (
                     <div className="-ml-1 my-2">

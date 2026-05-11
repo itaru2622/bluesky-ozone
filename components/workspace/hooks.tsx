@@ -74,7 +74,7 @@ export const useWorkspaceAddItemsMutation = () => {
           toastId.current = toast.success(message)
         }
 
-        queryClient.invalidateQueries([WORKSPACE_LIST_QUERY_KEY])
+        queryClient.invalidateQueries({ queryKey: [WORKSPACE_LIST_QUERY_KEY] })
       },
     },
   )
@@ -96,7 +96,7 @@ export const useWorkspaceRemoveItemsMutation = () => {
             'subject',
           )} removed from workspace.`,
         )
-        queryClient.invalidateQueries([WORKSPACE_LIST_QUERY_KEY])
+        queryClient.invalidateQueries({ queryKey: [WORKSPACE_LIST_QUERY_KEY] })
       },
     },
   )
@@ -112,7 +112,7 @@ export const useWorkspaceEmptyMutation = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([WORKSPACE_LIST_QUERY_KEY])
+        queryClient.invalidateQueries({ queryKey: [WORKSPACE_LIST_QUERY_KEY] })
       },
     },
   )

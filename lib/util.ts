@@ -226,6 +226,26 @@ export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+/**
+ * Validate an NSID (Namespaced Identifier) string.
+ * Format: at least 3 dot-separated segments where each segment is alphanumeric/hyphen,
+ * e.g. "app.bsky.feed.post". Returns null if valid, or an error message string.
+ */
+const NSID_SEGMENT = /^[a-zA-Z][a-zA-Z0-9-]*$/
+export function validateNsid(value: string): string | null {
+  const segments = value.split('.')
+  if (segments.length < 3) {
+    return 'NSID must have at least 3 segments'
+  }
+  for (const seg of segments) {
+    if (!seg) return 'NSID segments cannot be empty'
+    if (!NSID_SEGMENT.test(seg)) {
+      return `Invalid segment "${seg}" — must start with a letter and contain only letters, digits, or hyphens`
+    }
+  }
+  return null
+}
+
 export interface BatchedOperationOptions<T, R> {
   items: T[]
   batchSize?: number
@@ -435,3 +455,23 @@ export function getReadableTextColor(backgroundColor: string) {
 export const MINUTE = 60 * 1000
 export const HOUR = 60 * MINUTE
 export const DAY = 24 * HOUR
+
+export function formatDuration(seconds: number): string {
+  if (seconds < 60) return `${seconds}s`
+  if (seconds < 3600) return `${Math.round(seconds / 60)}m`
+  const hours = Math.floor(seconds / 3600)
+  const mins = Math.round((seconds % 3600) / 60)
+  return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`
+}
+
+export const numberToString = (value: number | string | undefined) => {
+  if (value === undefined) return '-'
+  if (typeof value === 'number' && (isNaN(value) || !isFinite(value))) {
+    return '-'
+  }
+  return value.toString()
+}
+
+export function randomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}

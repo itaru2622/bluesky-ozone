@@ -143,6 +143,9 @@ export const ItemTitle = ({
     : modEvent.record
       ? modEvent.record.moderation.subjectStatus
       : undefined
+  const eventUrlBase = ToolsOzoneModerationDefs.isModEventReport(modEvent.event)
+    ? '/reports'
+    : '/events'
 
   return (
     <div className="text-gray-500 dark:text-gray-50 flex flex-row justify-between">
@@ -154,7 +157,7 @@ export const ItemTitle = ({
           <a
             target="_blank"
             className="underline"
-            href={`/events/${modEvent.id}`}
+            href={`${eventUrlBase}/${modEvent.id}`}
           >
             {createdAt}
           </a>
