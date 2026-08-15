@@ -59,4 +59,5 @@ updates:
       # Node 22 remains the active LTS line. Revisit Node 26 after it enters
       # LTS in October 2026: https://github.com/bluesky-social/ozone/issues/564
       - dependency-name: node
-        versions: ["26.x"]
+        update-types:
+          - version-update:semver-major
